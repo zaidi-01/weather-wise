@@ -1,9 +1,10 @@
 import { CanceledError } from "axios";
+import { Weather as WeatherModel } from "models";
 import React from "react";
 import { WeatherService } from "services";
 
 interface WeatherState {
-  weather: any;
+  weather: WeatherModel | null;
   controller: AbortController | null;
 }
 
