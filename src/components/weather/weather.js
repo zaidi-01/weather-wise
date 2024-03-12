@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import { WeatherService } from "services";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -12,21 +12,13 @@ class Weather extends React.Component {
   }
 
   async componentDidMount() {
-    const apiKey = "API_KEY";
     const city = "CITY_NAME";
 
     try {
-      const geoResponse = await axios.get(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
-      );
-      const { lat, lon } = geoResponse.data[0];
-
-      const weatherResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
-      );
-      this.setState({ weather: weatherResponse.data });
+      const weather = await WeatherService.getWeather(city);
+      this.setState({ weather });
     } catch (error) {
-      console.error("Error fetching weather data", error);
+      console.error("Error fetching weather", error);
     }
   }
 
