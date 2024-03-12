@@ -1,5 +1,5 @@
+import { Weather } from "components";
 import "./app.css";
-import Weather from "components/weather/weather";
 
 function App() {
   return (
