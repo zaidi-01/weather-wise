@@ -1,13 +1,14 @@
-import { Weather } from "components";
+import { Search, Weather } from "components";
 import React from "react";
 import "./app.css";
 
 function App() {
+  const [query, setQuery] = React.useState("");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <Weather></Weather>
-      </header>
+      <Search onSearch={setQuery} />
+      {!!query && <Weather city={query} />}
     </div>
   );
 }

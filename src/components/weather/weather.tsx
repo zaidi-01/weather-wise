@@ -4,40 +4,62 @@ import React from "react";
 import { WeatherService } from "services";
 
 interface WeatherState {
-  weather: WeatherModel | null;
+  city: string;
   controller: AbortController | null;
+  weather: WeatherModel | null;
 }
 
-class Weather extends React.Component {
+interface WeatherProps {
+  city: string;
+}
+
+class Weather extends React.Component<WeatherProps, WeatherState> {
+  static getDerivedStateFromProps(
+    props: Readonly<WeatherProps>,
+    state: Readonly<WeatherState>
+  ) {
+    if (props.city !== state.city) {
+      return { city: props.city };
+    }
+
+    return null;
+  }
+
   state: WeatherState;
 
-  constructor(props: {} | Readonly<{}>) {
+  constructor(props: Readonly<WeatherProps>) {
     super(props);
 
     this.state = {
-      weather: null,
+      city: props.city,
       controller: null,
+      weather: null,
     };
   }
 
   async componentDidMount() {
-    const city = "CITY_NAME";
+    if (this.state.city) {
+      await this.fetchWeather();
+    }
+  }
 
-    const controller = new AbortController();
-    this.setState({ controller });
+  componentDidUpdate(prevState: Readonly<WeatherState>): void {
+    if (prevState.city !== this.state.city) {
+      this.fetchWeather();
+    }
+  }
 
-    WeatherService.getWeather(city, controller.signal)
-      .then((weather) => this.setState({ weather }))
-      .catch((error) => {
-        if (!(error instanceof CanceledError)) {
-          console.error("Error fetching weather", error);
-        }
-      });
+  shouldComponentUpdate(nextState: Readonly<WeatherState>) {
+    if (nextState.weather !== this.state.weather) {
+      return true;
+    }
+
+    return false;
   }
 
   componentWillUnmount() {
     setTimeout(() => {
-      this.state.controller.abort();
+      this.state.controller?.abort();
     });
   }
 
@@ -54,6 +76,22 @@ class Weather extends React.Component {
         <p>Wind: {this.state.weather.wind.speed} m/s</p>
       </div>
     );
+  }
+
+  private async fetchWeather() {
+    this.state.controller?.abort();
+
+    const city = this.state.city;
+    const controller = new AbortController();
+    this.setState({ weather: null, controller });
+
+    return WeatherService.getWeather(city, controller.signal)
+      .then((weather) => this.setState({ weather, controller: null }))
+      .catch((error) => {
+        if (!(error instanceof CanceledError)) {
+          console.error("Error fetching weather", error);
+        }
+      });
   }
 }
 
