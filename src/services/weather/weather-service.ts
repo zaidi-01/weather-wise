@@ -3,7 +3,7 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 const WeatherService = {
-  async getWeather(city, signal) {
+  async getWeather(city: string, signal: AbortSignal) {
     const geoResponse = await axios.get(
       `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`,
       { signal }

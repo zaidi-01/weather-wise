@@ -2,8 +2,15 @@ import { CanceledError } from "axios";
 import React from "react";
 import { WeatherService } from "services";
 
+interface WeatherState {
+  weather: any;
+  controller: AbortController | null;
+}
+
 class Weather extends React.Component {
-  constructor(props) {
+  state: WeatherState;
+
+  constructor(props: {} | Readonly<{}>) {
     super(props);
 
     this.state = {
@@ -21,7 +28,7 @@ class Weather extends React.Component {
     WeatherService.getWeather(city, controller.signal)
       .then((weather) => this.setState({ weather }))
       .catch((error) => {
-        if (!error instanceof CanceledError) {
+        if (!(error instanceof CanceledError)) {
           console.error("Error fetching weather", error);
         }
       });
