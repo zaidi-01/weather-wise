@@ -65,11 +65,11 @@ class Weather extends React.Component<WeatherProps, WeatherState> {
 
   render() {
     if (!this.state.weather) {
-      return <div>Loading...</div>;
+      return <div className="weather">Loading...</div>;
     }
 
     return (
-      <div>
+      <div className="weather">
         <h2>Weather in {this.state.weather.name}</h2>
         <p>Temperature: {this.state.weather.main.temp}°C</p>
         <p>Humidity: {this.state.weather.main.humidity}%</p>

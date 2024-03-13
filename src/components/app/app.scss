@@ -1,0 +1,17 @@
+.app {
+  height: 100%;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app.has-query {
+  justify-content: flex-start;
+}
+
+.weather {
+  flex: 1;
+}
