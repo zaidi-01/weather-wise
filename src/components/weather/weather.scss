@@ -1,0 +1,54 @@
+.weather {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.details {
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.temperature {
+  margin-right: 120px;
+
+  .display {
+    display: flex;
+  }
+
+  .display span {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 2.5rem;
+  }
+
+  .description {
+    text-transform: capitalize;
+  }
+}
+
+.attribute {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 5px;
+  }
+}
